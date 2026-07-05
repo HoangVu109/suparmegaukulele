@@ -116,5 +116,4 @@ Gemini splits documents by white-space boundaries with 100-token overlap to pres
 | New file | Upload |
 | Hash changed | Delete old doc → upload new |
 | Unchanged | Skip |
-| Deleted locally | (handled by temp.py) |
 
