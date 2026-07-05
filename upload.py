@@ -7,13 +7,14 @@ from google.genai import types
 
 load_dotenv()
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY not found in .env")
+API_KEY = os.getenv("API_KEY")
+if not API_KEY:
+    raise ValueError("API_KEY not found in .env")
 
-STORE_NAME = os.getenv("FILE_SEARCH_STORE_NAME", "").strip()
+# STORE_NAME = os.getenv("FILE_SEARCH_STORE_NAME", "").strip()
+STORE_NAME = 'fileSearchStores/ukulelefilesearchstore-xacvz396r7kw'
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=API_KEY)
 
 
 def get_or_create_store():

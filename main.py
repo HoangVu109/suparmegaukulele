@@ -1,3 +1,10 @@
+"""
+main.py - End-to-end RAG pipeline
+1. Scrape articles -> markdown
+2. Detect changes via SHA256 (hashes.json)
+3. Upload only delta to File Search Store
+4. Save updated hashes
+"""
 import os
 import json
 import hashlib
@@ -15,13 +22,11 @@ load_dotenv()
 MARKDOWN_DIR = "articles"
 HASHES_FILE = "hashes.json"
 LOG_FILE = "logs/pipeline.log"
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("API_KEY")
-STORE_NAME = os.getenv("FILE_SEARCH_STORE_NAME", "").strip()
+API_KEY = os.getenv("API_KEY")
+STORE_NAME = "fileSearchStores/ukulelefilesearchstore-xacvz396r7kw"
 
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY not found in .env")
-if not STORE_NAME:
-    raise ValueError("FILE_SEARCH_STORE_NAME not found in .env")
+if not API_KEY:
+    raise ValueError("API_KEY not found in .env")
 
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
@@ -36,7 +41,7 @@ logger = logging.getLogger(__name__)
 logging.getLogger("google.genai").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=API_KEY)
 
 
 def compute_hash(filepath: str) -> str:

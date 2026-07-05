@@ -17,13 +17,17 @@ project/
 ├── main.py              # Pipeline orchestration
 ├── scrape.py            # Zendesk scraper + markdown converter
 ├── upload.py            # Upload all .md to File Search Store
+├── check.py             # Dry-run delta detection
 ├── test.py              # Interactive chat with the store
+├── temp.py              # Delete all store documents
 ├── articles/            # Generated markdown files
 ├── hashes.json          # SHA256 + doc_name tracking
 ├── logs/                # Pipeline logs
 ├── requirements.txt     # Python dependencies
 ├── Dockerfile           # Containerization
-└── .env.sample          # Environment variables template
+├── .dockerignore
+├── .env.sample          # Environment variables template
+└── .github/workflows/   # Daily CI/CD
 ```
 
 ## Setup
@@ -39,9 +43,7 @@ cp .env.sample .env
 Fill in `.env`:
 
 ```env
-ZENDESK_API_URL = url
-GEMINI_API_KEY = your_gemini_api_key
-FILE_SEARCH_STORE_NAME = fileSearchStores/your-store-name-xxxxxxxxxxxx
+API_KEY = your_gemini_api_key
 ```
 
 ### 2. Install dependencies
@@ -49,14 +51,6 @@ FILE_SEARCH_STORE_NAME = fileSearchStores/your-store-name-xxxxxxxxxxxx
 ```bash
 pip install -r requirements.txt
 ```
-
-### 3. Create File Search Store (one time)
-
-```bash
-python upload.py
-```
-
-This creates a new store and prints the name. Save it to `.env` as `FILE_SEARCH_STORE_NAME`.
 
 ## How to Run
 
@@ -86,6 +80,30 @@ Pipeline complete: 7 files uploaded
 ```bash
 python test.py
 ```
+
+## Docker
+
+```bash
+docker build -t main.py .
+docker run --rm -e API_KEY=your_key -v $(pwd)/hashes.json:/app/hashes.json main.py
+```
+
+Container runs once and exits 0. Mount `hashes.json` for delta persistence.
+
+## Daily Job (GitHub Actions)
+
+Runs daily at 6:00 UTC (`.github/workflows/daily.yml`).
+
+| Step | Action |
+|---|---|
+| Checkout | Clone repo |
+| Restore cache | Load `hashes.json` from previous run |
+| Run `main.py` | Scrape → detect → upload delta |
+| Upload artifact | `pipeline-logs` available in Actions tab |
+
+**Setup:** Add `API_KEY` to repo → Settings → Secrets and variables → Actions.
+
+**Logs:** [Actions tab](https://github.com/) → latest run → Artifacts → `pipeline-logs`
 
 ## Chunk Strategy
 

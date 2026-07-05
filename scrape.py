@@ -7,7 +7,8 @@ from markdownify import markdownify
 
 load_dotenv()
 
-DOMAIN = os.getenv("ZENDESK_API_URL")
+# DOMAIN = os.getenv("ZENDESK_API_URL")
+DOMAIN = 'https://support.optisigns.com'
 
 def getAllArticles():
     url = f"{DOMAIN}/api/v2/help_center/en-us/articles.json"

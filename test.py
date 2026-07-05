@@ -4,13 +4,14 @@ from google import genai
 
 load_dotenv()
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("API_KEY")
-STORE_NAME = os.getenv("FILE_SEARCH_STORE_NAME", "").strip()
+API_KEY = os.getenv("API_KEY")
+# STORE_NAME = os.getenv("FILE_SEARCH_STORE_NAME", "").strip()
+STORE_NAME = 'fileSearchStores/ukulelefilesearchstore-xacvz396r7kw'
 
-if not GEMINI_API_KEY or not STORE_NAME:
-    raise ValueError("Missing GEMINI_API_KEY or FILE_SEARCH_STORE_NAME in .env")
+if not API_KEY:
+    raise ValueError("Missing API_KEY in .env")
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=API_KEY)
 
 
 def ask(SYSTEM_PROMPT, QUESTION):

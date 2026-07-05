@@ -1,0 +1,41 @@
+name: Daily RAG Pipeline
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore hashes.json cache
+        uses: actions/cache@v4
+        with:
+          path: hashes.json
+          key: hashes-${{ github.run_id }}
+          restore-keys: |
+            hashes-
+
+      - name: Run pipeline
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+        run: python main.py
+
+      - name: Upload logs artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-logs
+          path: logs/
