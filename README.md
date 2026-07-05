@@ -1,6 +1,6 @@
-# OptiSigns Help Center RAG Pipeline
+# Help Center RAG Pipeline
 
-End-to-end RAG pipeline that scrapes OptiSigns Help Center articles, converts to Markdown, uploads to **Google Gemini File Search Store**, and serves an AI assistant that answers only from the uploaded documents.
+End-to-end RAG pipeline that scrapes articles, converts to Markdown, uploads to **Google Gemini File Search Store**, and serves an AI assistant that answers only from the uploaded documents.
 
 ## Architecture
 
