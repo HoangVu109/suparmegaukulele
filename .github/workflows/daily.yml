@@ -1,4 +1,4 @@
-name: Daily RAG Pipeline
+name: Daily Job 
 
 on:
   schedule:
