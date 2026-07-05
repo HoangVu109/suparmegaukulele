@@ -29,7 +29,7 @@ def getArticlesPage(page=1,per_page=30):
     articles = []
     response = requests.get(url).json()
     articles.extend(response["articles"])
-    print(len(articles))
+    # print(len(articles))
     return articles
 
 def getArticle(article_id):
@@ -43,7 +43,6 @@ def saveArticle(article, dir='articles'):
     md_content = markdownify(article["body"])
     slug = slugify(article["title"])
     filename = f"{dir}/{slug}.md"
-    
     with open(filename, "w", encoding="utf-8") as f:
         f.write(f"# {article['title']}\n\n")
         f.write(f"**Original URL:** {article['html_url']}\n\n")
@@ -59,7 +58,10 @@ def getDemoArticles():
     return articles
 
 
+# articles = getDemoArticles()
 
+# for article in articles:
+#     saveArticle(article)
 
-
+# print(f'saved {len(articles)} articles')
 

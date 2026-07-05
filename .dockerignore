@@ -1,8 +1,37 @@
+# Python
 __pycache__/
-.vscode/
-.git/
+*.py[cod]
+*.egg-info/
+
+# Environment
 .env
-logs/
+.venv/
+env/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Output directories (created at runtime)
 articles/
-*.pyc
+logs/
+
+# State file (mounted at runtime)
+hashes.json
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Docs
+*.md
+!requirements.md

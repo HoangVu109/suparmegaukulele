@@ -1,6 +1,6 @@
-# Help Center RAG Pipeline
+# Help Center Pipeline
 
-End-to-end RAG pipeline that scrapes articles, converts to Markdown, uploads to **Google Gemini File Search Store**, and serves an AI assistant that answers only from the uploaded documents.
+End-to-end pipeline that scrapes articles, converts to Markdown, uploads to **Google Gemini File Search Store**, and serves an AI assistant that answers only from the uploaded documents.
 
 ## Architecture
 
@@ -103,7 +103,12 @@ Runs daily at 6:00 UTC (`.github/workflows/daily.yml`).
 
 **Setup:** Add `API_KEY` to repo → Settings → Secrets and variables → Actions.
 
-**Logs:** [Actions tab](https://github.com/) → latest run → Artifacts → `pipeline-logs`
+**Logs:** Go to your repo → [Actions tab](https://github.com/HoangVu109/suparmegaukulele/actions/workflows/daily.yml) → latest run → Artifacts → `pipeline-logs`
+!["artifact"](imgs/artifact.jpg)
+
+Or you can see logs in Pipeline → Run pipline
+!["Logging"](imgs/logging.jpg)
+
 
 ## Chunk Strategy
 
@@ -116,6 +121,10 @@ Runs daily at 6:00 UTC (`.github/workflows/daily.yml`).
 Gemini splits documents by white-space boundaries with 100-token overlap to preserve context across chunk boundaries.
 
 
+## Screenshot
+
+![Assistant answering "How do I add a YouTube video?"](imgs/response.jpg)
+Assistant answering "How do I add a YouTube video?"
 ## Delta Sync
 
 `hashes.json` tracks each file:
